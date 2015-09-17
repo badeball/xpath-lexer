@@ -1,0 +1,19 @@
+{
+  "name": "xpath-lexer",
+  "version": "0.0.1",
+  "description": "A lexer for XPath 1.0 expressions.",
+  "main": "lib/xpath_lexer.js",
+  "author": "Jonas Amundsen <jonasba@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/badeball/xpath-lexer.git"
+  },
+  "devDependencies": {
+    "eslint": "0.24.1",
+    "mocha": "2.3.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "MIT"
+}
