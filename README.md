@@ -1,5 +1,7 @@
 # xpath-lexer
 
+[![Build Status](https://travis-ci.org/badeball/xpath-lexer.svg?branch=master)](https://travis-ci.org/badeball/xpath-lexer)
+
 A lexer for XPath 1.0 expressions.
 
 ```javascript
