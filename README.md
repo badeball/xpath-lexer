@@ -4,6 +4,17 @@
 
 A lexer for XPath 1.0 expressions.
 
+## Installation
+
+The package can be installed with `npm`.
+
+```
+$ npm install xpath-lexer
+```
+
+## Usage
+
+
 ```javascript
 var XPathLexer = require("xpath-lexer");
 
