@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/badeball/xpath-lexer.svg?branch=master)](https://travis-ci.org/badeball/xpath-lexer)
 [![Code Climate](https://codeclimate.com/github/badeball/xpath-lexer/badges/gpa.svg)](https://codeclimate.com/github/badeball/xpath-lexer)
+[![Test Coverage](https://codeclimate.com/github/badeball/xpath-lexer/badges/coverage.svg)](https://codeclimate.com/github/badeball/xpath-lexer/coverage)
 
 A lexer for XPath 1.0 expressions.
 
