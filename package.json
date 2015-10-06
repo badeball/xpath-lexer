@@ -9,6 +9,7 @@
     "url": "git://github.com/badeball/xpath-lexer.git"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "0.1.1",
     "eslint": "0.24.1",
     "istanbul": "0.3.22",
     "mocha": "2.3.0"
