@@ -54,7 +54,7 @@ describe("XPathLexer", function () {
           lexer = new XPathLexer(exampleExpression);
 
       Assert.equal(lexer.peak(1), tokens[1]);
-      Assert.equal(lexer.next(), tokens[0]);
+      Assert.equal(lexer.peak(), tokens[0]);
     });
   });
 
