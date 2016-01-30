@@ -4,6 +4,14 @@ var Assert = require("assert");
 
 var XPathLexer = require("./../lib/xpath_lexer");
 
+function itShouldNotTokenize (expression, errorPosition) {
+  it("should throw upon  " + expression, function () {
+    Assert.throws(function () {
+      XPathLexer.tokenize(expression);
+    }, new RegExp("Invalid character at position " + errorPosition));
+  });
+}
+
 function itShouldTokenize (expression) {
   it("should tokenize " + expression, function () {
     var actual = XPathLexer.tokenize(expression);
@@ -70,11 +78,8 @@ describe("XPathLexer", function () {
   });
 
   describe("static tokenize()", function () {
-    it("should throw upon an invalid expression", function () {
-      Assert.throws(function () {
-        XPathLexer.tokenize("//foo[%bar='baz']");
-      }, /Invalid XPath expression/);
-    });
+    itShouldNotTokenize("%", 0);
+    itShouldNotTokenize("//foo[%bar='baz']", 6);
 
     itShouldTokenize("$foo");
     itShouldTokenize("foo");
