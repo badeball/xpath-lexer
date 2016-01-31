@@ -7,54 +7,71 @@ var XPathLexer = require("./../lib/xpath_lexer");
 function itShouldNotTokenize (expression, errorPosition) {
   it("should throw upon  " + expression, function () {
     Assert.throws(function () {
-      XPathLexer.tokenize(expression);
+      new XPathLexer(expression);
     }, new RegExp("Invalid character at position " + errorPosition));
   });
 }
 
 function itShouldTokenize (expression) {
   it("should tokenize " + expression, function () {
-    var actual = XPathLexer.tokenize(expression);
+    var lexer = new XPathLexer(expression);
 
-    var expected = [expression];
-
-    Assert.deepEqual(actual, expected);
+    Assert.deepEqual(lexer.next(), expression);
   });
 }
 
 var exampleExpression = "//foo:bar::children*[@id='baz']";
 
+var exampleTokens = [
+  "\/\/",
+  "foo:bar",
+  "::",
+  "children",
+  "*",
+  "[",
+  "@",
+  "id",
+  "=",
+  "'baz'",
+  "]"
+];
+
 describe("XPathLexer", function () {
+  describe("length()", function () {
+    it("should return the number of tokens", function () {
+      var lexer = new XPathLexer(exampleExpression);
+
+      Assert.equal(lexer.length(), exampleTokens.length);
+    });
+  });
+
   describe("next()", function () {
     it("should always return the next token", function () {
-      var tokens = XPathLexer.tokenize(exampleExpression),
-          lexer = new XPathLexer(exampleExpression);
+      var lexer = new XPathLexer(exampleExpression);
 
-      for (var i = 0; i < tokens.length; i++) {
-        Assert.equal(lexer.next(), tokens[i]);
+      for (var i = 0; i < lexer.length(); i++) {
+        Assert.equal(lexer.next(), exampleTokens[i]);
       }
     });
   });
 
   describe("back()", function () {
     it("should move the lexer backwards once", function () {
-      var tokens = XPathLexer.tokenize(exampleExpression),
-          lexer = new XPathLexer(exampleExpression);
+      var lexer = new XPathLexer(exampleExpression);
 
       lexer.next();
       lexer.back();
 
-      Assert.equal(lexer.next(), tokens[0]);
+      Assert.equal(lexer.next(), exampleTokens[0]);
     });
   });
 
   describe("peak()", function () {
     it("should return the Nth next token without moving forwards", function () {
-      var tokens = XPathLexer.tokenize(exampleExpression),
-          lexer = new XPathLexer(exampleExpression);
+      var lexer = new XPathLexer(exampleExpression);
 
-      Assert.equal(lexer.peak(1), tokens[1]);
-      Assert.equal(lexer.peak(), tokens[0]);
+      Assert.equal(lexer.peak(1), exampleTokens[1]);
+      Assert.equal(lexer.peak(), exampleTokens[0]);
     });
   });
 
@@ -66,10 +83,9 @@ describe("XPathLexer", function () {
     });
 
     it("should return true when the tokens has been traversed", function () {
-      var tokens = XPathLexer.tokenize(exampleExpression),
-          lexer = new XPathLexer(exampleExpression);
+      var lexer = new XPathLexer(exampleExpression);
 
-      for (var i = 0; i < tokens.length; i++) {
+      for (var i = 0; i < lexer.length(); i++) {
         lexer.next();
       }
 
@@ -121,11 +137,9 @@ describe("XPathLexer", function () {
     itShouldTokenize("''");
 
     it("should tokenize even when containing whitespace", function () {
-      var actual = XPathLexer.tokenize(" / ");
+      var lexer = new XPathLexer(" / ");
 
-      var expected = ["/"];
-
-      Assert.deepEqual(actual, expected);
+      Assert.deepEqual(lexer.next(), "/");
     });
   });
 });
