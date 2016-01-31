@@ -158,6 +158,17 @@ describe("XPathLexer", function () {
 
       Assert.equal(lexer.position(), 10);
     });
+
+    it("should return the length of the string when the lexer is empty", function () {
+      var lexer = new XPathLexer("//foo::bar");
+
+      Assert.equal(lexer.next(), "//");
+      Assert.equal(lexer.next(), "foo");
+      Assert.equal(lexer.next(), "::");
+      Assert.equal(lexer.next(), "bar");
+
+      Assert.equal(lexer.position(), 10);
+    });
   });
 
   describe("static tokenize()", function () {
