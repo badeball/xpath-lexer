@@ -53,6 +53,16 @@ describe("XPathLexer", function () {
         Assert.equal(lexer.next(), exampleTokens[i]);
       }
     });
+
+    it("should return null when no more tokens exist", function () {
+      var lexer = new XPathLexer(exampleExpression);
+
+      for (var i = 0; i < lexer.length(); i++) {
+        lexer.next();
+      }
+
+      Assert.equal(lexer.next(), null);
+    });
   });
 
   describe("back()", function () {
@@ -73,6 +83,12 @@ describe("XPathLexer", function () {
       Assert.equal(lexer.peak(1), exampleTokens[1]);
       Assert.equal(lexer.peak(), exampleTokens[0]);
     });
+
+    it("should return null when the token doesn't exist", function () {
+      var lexer = new XPathLexer(exampleExpression);
+
+      Assert.equal(lexer.peak(10000), null);
+    });
   });
 
   describe("empty()", function () {
@@ -90,6 +106,32 @@ describe("XPathLexer", function () {
       }
 
       Assert.equal(lexer.empty(), true);
+    });
+  });
+
+  describe("position()", function () {
+    it("should return the position of the next token", function () {
+      var lexer = new XPathLexer("//foo::bar");
+
+      Assert.equal(lexer.next(), "//");
+      Assert.equal(lexer.next(), "foo");
+      Assert.equal(lexer.next(), "::");
+      Assert.equal(lexer.peak(), "bar");
+
+      Assert.equal(lexer.position(), 7);
+    });
+
+    it("should take whitespace into the account", function () {
+      var lexer = new XPathLexer(" //foo :: bar");
+
+      Assert.equal(lexer.position(), 1);
+
+      Assert.equal(lexer.next(), "//");
+      Assert.equal(lexer.next(), "foo");
+      Assert.equal(lexer.next(), "::");
+      Assert.equal(lexer.peak(), "bar");
+
+      Assert.equal(lexer.position(), 10);
     });
   });
 
