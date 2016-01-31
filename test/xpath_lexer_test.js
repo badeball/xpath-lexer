@@ -57,11 +57,25 @@ describe("XPathLexer", function () {
     it("should return null when no more tokens exist", function () {
       var lexer = new XPathLexer(exampleExpression);
 
+      // Invoking next() as many times as there are tokens.
       for (var i = 0; i < lexer.length(); i++) {
         lexer.next();
       }
 
       Assert.equal(lexer.next(), null);
+    });
+
+    it("should not move further forward when reaching the last token", function () {
+      var lexer = new XPathLexer(exampleExpression);
+
+      // Invoking next() *twice* as many times as there are tokens.
+      for (var i = 0; i < lexer.length() * 2; i++) {
+        lexer.next();
+      }
+
+      lexer.back();
+
+      Assert.equal(lexer.next(), exampleTokens[exampleTokens.length - 1]);
     });
   });
 
@@ -111,6 +125,7 @@ describe("XPathLexer", function () {
     it("should return true when the tokens has been traversed", function () {
       var lexer = new XPathLexer(exampleExpression);
 
+      // Invoking next() as many times as there are tokens.
       for (var i = 0; i < lexer.length(); i++) {
         lexer.next();
       }
