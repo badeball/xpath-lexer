@@ -74,6 +74,16 @@ describe("XPathLexer", function () {
 
       Assert.equal(lexer.next(), exampleTokens[0]);
     });
+
+    it("should not move the lexer further back than the first token", function () {
+      var lexer = new XPathLexer(exampleExpression);
+
+      lexer.next();
+      lexer.back();
+      lexer.back();
+
+      Assert.equal(lexer.next(), exampleTokens[0]);
+    });
   });
 
   describe("peak()", function () {
