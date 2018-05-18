@@ -23,7 +23,7 @@ function itShouldTokenize (expression) {
 var exampleExpression = "//foo:bar::children*[@id='baz']";
 
 var exampleTokens = [
-  "\/\/",
+  "//",
   "foo:bar",
   "::",
   "children",
