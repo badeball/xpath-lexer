@@ -11,8 +11,8 @@
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
     "eslint": "^4.19.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.1.1"
+    "mocha": "^5.1.1",
+    "nyc": "^11.8.0"
   },
   "files": [
     "lib"
