@@ -1,8 +1,6 @@
-"use strict";
+import Assert from "assert";
 
-var Assert = require("assert");
-
-var XPathLexer = require("./../lib/xpath_lexer");
+import XPathLexer from "./../lib/xpath_lexer";
 
 function itShouldNotTokenize (expression, errorPosition) {
   it("should throw upon  " + expression, function () {

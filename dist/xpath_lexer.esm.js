@@ -29,7 +29,7 @@ var lexer = new RegExp([
   "'[^']*'"
 ].join("|"), "g");
 
-export default function XPathLexer (expression) {
+function XPathLexer (expression) {
   var match = expression.match(lexer);
 
   if (match === null) {
@@ -104,3 +104,5 @@ XPathLexer.prototype.position = function () {
     return this.tokens[this.index].position;
   }
 };
+
+export default XPathLexer;

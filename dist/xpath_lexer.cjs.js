@@ -1,3 +1,5 @@
+'use strict';
+
 var lexer = new RegExp([
   "\\$?(?:(?![0-9-])[\\w-]+:)?(?![0-9-])[\\w-]+",
   "\\d+\\.\\d+",
@@ -29,7 +31,7 @@ var lexer = new RegExp([
   "'[^']*'"
 ].join("|"), "g");
 
-export default function XPathLexer (expression) {
+function XPathLexer (expression) {
   var match = expression.match(lexer);
 
   if (match === null) {
@@ -104,3 +106,5 @@ XPathLexer.prototype.position = function () {
     return this.tokens[this.index].position;
   }
 };
+
+module.exports = XPathLexer;
