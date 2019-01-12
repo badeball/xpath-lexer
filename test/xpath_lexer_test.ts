@@ -1,8 +1,8 @@
-import Assert from "assert";
+import * as Assert from "assert";
 
 import XPathLexer from "./../lib/xpath_lexer";
 
-function itShouldNotTokenize (expression, errorPosition) {
+function itShouldNotTokenize (expression: string, errorPosition: number) {
   it("should throw upon  " + expression, function () {
     Assert.throws(function () {
       new XPathLexer(expression);
@@ -10,7 +10,7 @@ function itShouldNotTokenize (expression, errorPosition) {
   });
 }
 
-function itShouldTokenize (expression) {
+function itShouldTokenize (expression: string) {
   it("should tokenize " + expression, function () {
     var lexer = new XPathLexer(expression);
 

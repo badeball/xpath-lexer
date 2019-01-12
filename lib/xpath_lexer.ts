@@ -30,7 +30,10 @@ var lexer = new RegExp([
 ].join("|"), "g");
 
 export default class XPathLexer {
-  constructor(expression) {
+  private tokens: { value: string, position: number }[];
+  private index: number;
+
+  constructor(expression: string) {
     var match = expression.match(lexer);
 
     if (match === null) {
@@ -40,8 +43,12 @@ export default class XPathLexer {
     if (match.join("") !== expression) {
       var position = 0;
 
-      while (expression.indexOf(match[0]) === position) {
-        position += match.shift().length;
+      for (var i = 0; i < match.length; i++) {
+        if (expression.indexOf(match[i]) !== position) {
+          break;
+        }
+
+        position += match[i].length;
       }
 
       throw new Error("Invalid character at position " + position);
@@ -86,7 +93,7 @@ export default class XPathLexer {
     }
   }
 
-  peak(n) {
+  peak(n?: number) {
     var token = this.tokens[this.index + (n || 0)];
 
     return token && token.value;

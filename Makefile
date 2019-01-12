@@ -11,10 +11,10 @@ lint:
 	false
 
 test:
-	$(MOCHA) --require esm --recursive --reporter dot
+	$(MOCHA) --require ts-node/register --recursive --reporter dot "test/**/*_test.ts"
 
 test-cover:
-	$(NYC) --temp-directory coverage/ --require esm $(MOCHA) --recursive --reporter dot
+	$(NYC) --temp-directory coverage/ --require ts-node/register --extension .ts $(MOCHA) --recursive --reporter dot "test/**/*_test.ts"
 	$(NYC) --temp-directory coverage/ report --reporter text-lcov > coverage.lcov
 
 build:
