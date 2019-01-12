@@ -18,8 +18,7 @@ test-cover:
 	$(NYC) --temp-directory coverage/ report --reporter text-lcov > coverage.lcov
 
 build:
-	$(ROLLUP) --format cjs --file dist/xpath_lexer.cjs.js lib/xpath_lexer.js
-	$(ROLLUP) --format es --file dist/xpath_lexer.esm.js lib/xpath_lexer.js
+	$(ROLLUP) --config
 
 ensure-built: build
 	[ -z "$(shell git status -s dist/)" ]
