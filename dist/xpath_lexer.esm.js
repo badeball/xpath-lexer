@@ -29,80 +29,82 @@ var lexer = new RegExp([
   "'[^']*'"
 ].join("|"), "g");
 
-function XPathLexer (expression) {
-  var match = expression.match(lexer);
+class XPathLexer {
+  constructor(expression) {
+    var match = expression.match(lexer);
 
-  if (match === null) {
-    throw new Error("Invalid character at position 0");
-  }
-
-  if (match.join("") !== expression) {
-    var position = 0;
-
-    while (expression.indexOf(match[0]) === position) {
-      position += match.shift().length;
+    if (match === null) {
+      throw new Error("Invalid character at position 0");
     }
 
-    throw new Error("Invalid character at position " + position);
+    if (match.join("") !== expression) {
+      var position = 0;
+
+      while (expression.indexOf(match[0]) === position) {
+        position += match.shift().length;
+      }
+
+      throw new Error("Invalid character at position " + position);
+    }
+
+    this.tokens = match.map(function (token) {
+      return {
+        value: token,
+        position: 0
+      };
+    });
+
+    this.tokens.reduce(function (previousToken, nextToken) {
+      nextToken.position = previousToken.position + previousToken.value.length;
+      return nextToken;
+    });
+
+    this.tokens = this.tokens.filter(function (token) {
+      return !/^\s+$/.test(token.value);
+    });
+
+    this.index = 0;
   }
 
-  this.tokens = match.map(function (token) {
-    return {
-      value: token,
-      position: 0
-    };
-  });
+  length() {
+    return this.tokens.length;
+  }
 
-  this.tokens.reduce(function (previousToken, nextToken) {
-    nextToken.position = previousToken.position + previousToken.value.length;
-    return nextToken;
-  });
+  next() {
+    if (this.index === this.tokens.length) {
+      return null;
+    } else {
+      var token = this.tokens[this.index++];
 
-  this.tokens = this.tokens.filter(function (token) {
-    return !/^\s+$/.test(token.value);
-  });
+      return token && token.value;
+    }
+  }
 
-  this.index = 0;
-}
+  back() {
+    if (this.index > 0) {
+      this.index--;
+    }
+  }
 
-XPathLexer.prototype.length = function () {
-  return this.tokens.length;
-};
-
-XPathLexer.prototype.next = function () {
-  if (this.index === this.tokens.length) {
-    return null;
-  } else {
-    var token = this.tokens[this.index++];
+  peak(n) {
+    var token = this.tokens[this.index + (n || 0)];
 
     return token && token.value;
   }
-};
 
-XPathLexer.prototype.back = function () {
-  if (this.index > 0) {
-    this.index--;
+  empty() {
+    return this.tokens.length <= this.index;
   }
-};
 
-XPathLexer.prototype.peak = function (n) {
-  var token = this.tokens[this.index + (n || 0)];
+  position() {
+    if (this.index === this.tokens.length) {
+      var lastToken = this.tokens[this.index - 1];
 
-  return token && token.value;
-};
-
-XPathLexer.prototype.empty = function () {
-  return this.tokens.length <= this.index;
-};
-
-XPathLexer.prototype.position = function () {
-  if (this.index === this.tokens.length) {
-    var lastToken = this.tokens[this.index - 1];
-
-    return lastToken.position + lastToken.value.length;
-  } else {
-    return this.tokens[this.index].position;
+      return lastToken.position + lastToken.value.length;
+    } else {
+      return this.tokens[this.index].position;
+    }
   }
-};
+}
 
 export default XPathLexer;
