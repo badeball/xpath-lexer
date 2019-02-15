@@ -1,6 +1,6 @@
 {
   "name": "xpath-lexer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A lexer for XPath 1.0 expressions.",
   "main": "dist/xpath_lexer.cjs.js",
   "module": "dist/xpath_lexer.esm.js",
